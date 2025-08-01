@@ -1,0 +1,7 @@
+include README.md
+include LICENSE
+include .pre-commit-hooks.yaml
+include sample-pre-commit-config.yaml
+include example.ps1
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]

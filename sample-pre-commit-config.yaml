@@ -1,0 +1,21 @@
+# Sample .pre-commit-config.yaml file for using psscriptanalyzer-pre-commit
+# Copy this to your repository root and customize as needed
+
+repos:
+  - repo: https://github.com/thetestlabs/psscriptanalyzer-pre-commit
+    rev: v1.0.0 # Use the latest version tag
+    hooks:
+      - id: psscriptanalyzer
+        # Uncomment and customize the following args as needed:
+        # args:
+        #   - --severity=Warning  # Error, Warning (default), or Information
+        #   - --exclude-rule=PSAvoidUsingWriteHost
+        #   - --exclude-rule=PSAvoidUsingInvokeExpression
+
+  # You can add other pre-commit hooks here as well
+  # - repo: https://github.com/pre-commit/pre-commit-hooks
+  #   rev: v4.4.0
+  #   hooks:
+  #     - id: trailing-whitespace
+  #     - id: end-of-file-fixer
+  #     - id: check-yaml

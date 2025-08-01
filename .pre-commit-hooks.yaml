@@ -1,0 +1,9 @@
+- id: psscriptanalyzer
+  name: PSScriptAnalyzer
+  description: "Run PSScriptAnalyzer on PowerShell files"
+  entry: psscriptanalyzer-hook
+  language: python
+  files: \.(ps1|psm1|psd1)$
+  args: []
+  additional_dependencies: []
+  minimum_pre_commit_version: "2.9.0"

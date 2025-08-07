@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: psscriptanalyzer-local
+        name: PSScriptAnalyzer (local)
+        entry: psscriptanalyzer-hook
+        language: system
+        files: \.(ps1|psm1|psd1)$

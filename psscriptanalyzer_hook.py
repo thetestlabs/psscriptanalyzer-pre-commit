@@ -161,14 +161,14 @@ def run_script_analyzer(
             }}
             if ($issues.Count -gt 0) {{
                 Write-Host ""
-                
+
                 # Check if running in GitHub Actions
                 $isGitHubActions = $env:GITHUB_ACTIONS -eq "true"
-                
+
                 foreach ($issue in $issues) {{
                     $fileName = Split-Path -Leaf $issue.ScriptName
                     $location = "$($fileName): Line $($issue.Line):1"
-                    
+
                     if ($isGitHubActions) {{
                         # Use GitHub Actions annotations
                         $annotationType = switch ($issue.Severity) {{
@@ -177,7 +177,7 @@ def run_script_analyzer(
                             "Information" {{ "notice" }}
                             default {{ "error" }}
                         }}
-                        
+
                         # Map severity for GitHub Actions display
                         $displaySeverity = switch ($issue.Severity) {{
                             "Error" {{ "Error" }}
@@ -185,12 +185,12 @@ def run_script_analyzer(
                             "Information" {{ "Notice" }}
                             default {{ "Error" }}
                         }}
-                        
+
                         # GitHub Actions annotation format
                         $annotation = "::" + $annotationType + " file=" + $issue.ScriptName + `
                             ",line=" + $issue.Line + ",title=" + $issue.RuleName + "::" + $issue.Message
                         Write-Host $annotation
-                        
+
                         # Also show regular output for readability with GitHub Actions terminology
                         $header = "$($displaySeverity): $($location): $($issue.RuleName)"
                         Write-Host $header
@@ -204,7 +204,7 @@ def run_script_analyzer(
                             "Information" {{ "Cyan" }}
                             default {{ "Red" }}
                         }}
-                        
+
                         $header = "$($issue.Severity): $($location): $($issue.RuleName)"
                         Write-Host $header -ForegroundColor $severityColor
                         Write-Host "  $($issue.Message)" -ForegroundColor Gray

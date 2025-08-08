@@ -32,6 +32,7 @@ jobs:
           import tomllib
           import re
           import sys
+          import os
 
           # Read version from pyproject.toml
           with open('pyproject.toml', 'rb') as f:

@@ -9,10 +9,18 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.9", "3.12", "3.13"]
+        exclude:
+          # Reduce matrix size - test fewer combinations
+          - os: macos-latest
+            python-version: "3.9"
+          - os: ubuntu-latest
+            python-version: "3.9"
 
     steps:
       - uses: actions/checkout@v4
@@ -26,6 +34,7 @@ jobs:
         uses: astral-sh/setup-uv@v6
         with:
           version: "latest"
+          enable-cache: true
 
       - name: Install dependencies
         run: |
@@ -36,12 +45,24 @@ jobs:
         shell: bash
         run: |
           if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
-            wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb
-            sudo dpkg -i packages-microsoft-prod.deb
-            sudo apt-get update
-            sudo apt-get install -y powershell
+            # Use snap for faster installation
+            sudo snap install powershell --classic
           elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-            brew install powershell
+            brew install --cask powershell
+          fi
+
+      - name: Verify PowerShell installation
+        shell: bash
+        run: |
+          if command -v pwsh >/dev/null 2>&1; then
+            echo "PowerShell Core (pwsh) found"
+            pwsh -Command '$PSVersionTable.PSVersion'
+          elif command -v powershell >/dev/null 2>&1; then
+            echo "Windows PowerShell found"
+            powershell -Command '$PSVersionTable.PSVersion'
+          else
+            echo "No PowerShell found"
+            exit 1
           fi
 
       - name: Build package

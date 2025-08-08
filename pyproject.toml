@@ -60,6 +60,12 @@ dev = [
     "twine>=5.0.0",
     "build>=1.0.0",
 ]
+docs = [
+    "myst-parser>=3.0.1",
+    "sphinx>=7.4.7",
+    "sphinx-autodoc-typehints>=2.3.0",
+    "sphinx-rtd-theme>=3.0.2",
+]
 
 [tool.ruff]
 target-version = "py39"

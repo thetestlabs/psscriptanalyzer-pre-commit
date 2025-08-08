@@ -99,15 +99,15 @@ If you already have a `.pre-commit-config.yaml` file in your repository, add the
 ```yaml
 repos:
   # ... your existing hooks ...
-  
+
   - repo: https://github.com/thetestlabs/psscriptanalyzer-pre-commit
     rev: v1.0.0  # Use the latest version
     hooks:
       # Lint PowerShell files
       - id: psscriptanalyzer
         args: ["--severity", "Warning"]
-      
-      # Format PowerShell files  
+
+      # Format PowerShell files
       - id: psscriptanalyzer-format
 ```
 

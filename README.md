@@ -16,7 +16,7 @@ A pre-commit hook for running [PSScriptAnalyzer](https://github.com/PowerShell/P
 ## Supported File Types
 
 - `.ps1` - PowerShell scripts
-- `.psm1` - PowerShell modules  
+- `.psm1` - PowerShell modules
 - `.psd1` - PowerShell data files
 
 ## Prerequisites
@@ -40,7 +40,7 @@ Add this to your `.pre-commit-config.yaml`:
 ```yaml
 repos:
   - repo: https://github.com/thetestlabs/psscriptanalyzer-pre-commit
-    rev: v1.0.0  # Use the ref you want to point at
+    rev: v1.0.0 # Use the ref you want to point at
     hooks:
       - id: psscriptanalyzer
       - id: psscriptanalyzer-format
@@ -56,7 +56,7 @@ Runs PSScriptAnalyzer to check for issues in your PowerShell files.
 
 ```yaml
 - id: psscriptanalyzer
-  args: ['--severity', 'Warning']  # Default: Warning
+  args: ["--severity", "Warning"] # Default: Warning
   # Available options: All, Information, Warning, Error
 ```
 
@@ -64,7 +64,7 @@ Runs PSScriptAnalyzer to check for issues in your PowerShell files.
 
 - `All`: Shows Error, Warning, and Information issues (most comprehensive)
 - `Information`: Shows only Information level issues
-- `Warning`: Shows only Warning level issues (default)  
+- `Warning`: Shows only Warning level issues (default)
 - `Error`: Shows only Error level issues (most critical)
 
 #### `psscriptanalyzer-format`
@@ -80,7 +80,7 @@ Formats your PowerShell files using PSScriptAnalyzer's formatter.
 - `--format`: Format files instead of just analyzing them
 - `--severity`: Set severity level:
   - `All`: Show all issues (Error, Warning, Information)
-  - `Information`: Show only Information level issues  
+  - `Information`: Show only Information level issues
   - `Warning`: Show only Warning level issues (default)
   - `Error`: Show only Error level issues
 
@@ -91,7 +91,7 @@ The hook displays issues with color-coded severity levels:
 **Local Terminal:**
 
 - **Error**: Red text - `Error: filename: Line X:1: RuleName`
-- **Warning**: Orange text - `Warning: filename: Line X:1: RuleName`  
+- **Warning**: Orange text - `Warning: filename: Line X:1: RuleName`
 - **Information**: Cyan text - `Information: filename: Line X:1: RuleName`
 
 **GitHub Actions:**
@@ -111,15 +111,15 @@ repos:
     hooks:
       # Check for issues (show all severity levels)
       - id: psscriptanalyzer
-        args: ['--severity', 'All']
-      
+        args: ["--severity", "All"]
+
       # Format files
       - id: psscriptanalyzer-format
 
       # Example: Only show critical errors
       - id: psscriptanalyzer
         name: psscriptanalyzer-errors-only
-        args: ['--severity', 'Error']
+        args: ["--severity", "Error"]
 ```
 
 ## How It Works

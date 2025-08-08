@@ -28,7 +28,7 @@ repos:
         description: Run PSScriptAnalyzer on PowerShell files
         args: ["--severity", "All"]
         files: \.(ps1|psm1|psd1)$
-        
+
       # Code formatting
       - id: psscriptanalyzer-format
         name: PowerShell Formatting
@@ -48,13 +48,13 @@ Control which issues are reported:
 hooks:
   - id: psscriptanalyzer
     args: ["--severity", "All"]          # All issues (comprehensive)
-    
+
   - id: psscriptanalyzer
     args: ["--severity", "Error"]        # Only critical errors
-    
+
   - id: psscriptanalyzer
     args: ["--severity", "Warning"]      # Only warnings (default)
-    
+
   - id: psscriptanalyzer
     args: ["--severity", "Information"]  # Only informational issues
 ```
@@ -73,7 +73,7 @@ hooks:
 Issues are displayed with color-coded severity levels:
 
 - **Error**: Red text - `Error: filename: Line X:1: RuleName`
-- **Warning**: Orange text - `Warning: filename: Line X:1: RuleName`  
+- **Warning**: Orange text - `Warning: filename: Line X:1: RuleName`
 - **Information**: Cyan text - `Information: filename: Line X:1: RuleName`
 
 ### GitHub Actions Integration
@@ -99,7 +99,7 @@ When running in GitHub Actions, the hook automatically:
 Both hooks automatically target:
 
 - `.ps1` files (PowerShell scripts)
-- `.psm1` files (PowerShell modules)  
+- `.psm1` files (PowerShell modules)
 - `.psd1` files (PowerShell data/manifests)
 
 #### Custom File Patterns
@@ -110,10 +110,10 @@ Override the default file selection:
 hooks:
   - id: psscriptanalyzer
     files: \.(ps1)$  # Only .ps1 files
-    
+
   - id: psscriptanalyzer
     files: \.(ps1|psm1)$  # Only scripts and modules
-    
+
   - id: psscriptanalyzer
     files: ^scripts/.*\.ps1$  # Only .ps1 files in scripts/ directory
 ```
@@ -126,7 +126,7 @@ Exclude specific files or directories:
 hooks:
   - id: psscriptanalyzer
     exclude: ^(tests/|vendor/|\.vscode/).*$
-    
+
   - id: psscriptanalyzer
     exclude: |
       (?x)^(
@@ -146,7 +146,7 @@ Control when hooks run:
 hooks:
   - id: psscriptanalyzer
     stages: [commit, push]  # Run on commit and push
-    
+
   - id: psscriptanalyzer-format
     stages: [commit]  # Only run on commit
 ```
@@ -190,13 +190,13 @@ repos:
         name: Production Code Analysis
         files: ^src/.*\.(ps1|psm1)$
         args: ["--severity", "Error"]
-        
+
       # Relaxed checking for tests
       - id: psscriptanalyzer
-        name: Test Code Analysis  
+        name: Test Code Analysis
         files: ^tests/.*\.ps1$
         args: ["--severity", "Warning"]
-        
+
       # Format all PowerShell files
       - id: psscriptanalyzer-format
 ```
@@ -303,7 +303,7 @@ repos:
     hooks:
       - id: psscriptanalyzer
       - id: psscriptanalyzer-format
-        
+
   # General hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
@@ -312,7 +312,7 @@ repos:
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-json
-        
+
   # Python hooks (if you have Python code too)
   - repo: https://github.com/psf/black
     rev: 23.3.0
@@ -335,7 +335,7 @@ repos:
         args: ["--severity", "Warning"]
       - id: psscriptanalyzer-format
         files: ^src/powershell/.*\.(ps1|psm1)$
-        
+
   # Other language hooks...
 ```
 
@@ -358,7 +358,7 @@ hooks:
   - id: psscriptanalyzer
     # Only run on changed files (default)
     pass_filenames: true
-    
+
   - id: psscriptanalyzer
     # Skip files larger than 1MB
     exclude: '^.*\.(ps1|psm1)$'

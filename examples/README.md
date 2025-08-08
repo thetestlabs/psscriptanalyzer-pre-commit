@@ -5,7 +5,7 @@
 The `examples/` directory contains PowerShell files with intentional errors that demonstrate various PSScriptAnalyzer rules and violations. These examples serve multiple purposes:
 
 - **Learning Tool**: Understand what PSScriptAnalyzer detects
-- **Testing**: Verify the pre-commit hooks work correctly  
+- **Testing**: Verify the pre-commit hooks work correctly
 - **Reference**: See examples of common PowerShell issues
 
 ## File Structure

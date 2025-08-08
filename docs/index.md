@@ -9,7 +9,6 @@ A pre-commit hook for PSScriptAnalyzer that provides PowerShell static analysis 
 installation
 usage
 configuration
-examples
 api
 changelog
 ```
@@ -44,7 +43,7 @@ changelog
 ## Features
 
 - **Static Analysis**: Comprehensive PowerShell code analysis using PSScriptAnalyzer
-- **Code Formatting**: Automatic PowerShell code formatting with Invoke-Formatter  
+- **Code Formatting**: Automatic PowerShell code formatting with Invoke-Formatter
 - **Cross-Platform**: Works on Windows, macOS, and Linux
 - **Configurable**: Customizable severity levels and rule selection
 - **Fast**: Efficient processing with proper error handling
@@ -61,16 +60,3 @@ changelog
 - **Windows**: PowerShell Core, Windows PowerShell
 - **macOS**: PowerShell Core via Homebrew (`brew install --cask powershell`)
 - **Linux**: PowerShell Core via package manager
-
-## Documentation Sections
-
-```{toctree}
-:hidden:
-
-installation
-usage
-configuration
-examples
-api
-changelog
-```

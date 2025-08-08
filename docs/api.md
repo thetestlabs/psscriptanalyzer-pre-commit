@@ -84,7 +84,7 @@ from psscriptanalyzer_hook import run_psscriptanalyzer
 
 files = ['script1.ps1', 'module.psm1']
 exit_code, stdout, stderr = run_psscriptanalyzer(
-    files, 
+    files,
     severity='Error',
     format_output=True
 )
@@ -269,8 +269,8 @@ The hooks execute these PowerShell commands:
 #### Analysis Command
 
 ```powershell
-Invoke-ScriptAnalyzer -Path @($files) -Severity $severity | 
-Format-Table -Property RuleName, Severity, ScriptName, Line, Message -AutoSize | 
+Invoke-ScriptAnalyzer -Path @($files) -Severity $severity |
+Format-Table -Property RuleName, Severity, ScriptName, Line, Message -AutoSize |
 Out-String -Width 4096
 ```
 
@@ -330,11 +330,11 @@ def find_custom_powershell():
         '/custom/path/to/pwsh',
         '/another/path/powershell'
     ]
-    
+
     for path in custom_paths:
         if shutil.which(path):
             return path
-    
+
     # Fallback to default detection
     return find_powershell_executable()
 ```
@@ -368,7 +368,7 @@ def test_full_integration():
     test_file = 'test.ps1'
     with open(test_file, 'w') as f:
         f.write('Get-ChildItem | where Name -like "*.txt"')  # Alias usage
-    
+
     try:
         exit_code = main(['--severity', 'Warning', test_file])
         assert exit_code == 1  # Should find alias issue
@@ -383,7 +383,7 @@ def test_full_integration():
 **Features:**
 
 - Cross-platform PowerShell support (Windows, macOS, Linux)
-- Consistent output formatting across platforms  
+- Consistent output formatting across platforms
 - Configurable severity levels
 - Pre-commit hook integration
 - Comprehensive error handling
@@ -395,4 +395,4 @@ def test_full_integration():
 - Windows PowerShell 5.1+
 - Pre-commit 2.0+
 
-For detailed changelog, see [CHANGELOG.md](../CHANGELOG.md).
+For detailed changelog, see [changelog](changelog.md).

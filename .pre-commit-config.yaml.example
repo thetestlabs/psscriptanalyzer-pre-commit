@@ -2,9 +2,9 @@ repos:
   - repo: https://github.com/thetestlabs/psscriptanalyzer-pre-commit
     rev: v1.0.0  # Use the ref you want to point at
     hooks:
-      # Check for issues (warnings and errors)
+      # Check for issues
       - id: psscriptanalyzer
-        args: ['--severity', 'Warning']
-      
+        args: ['--severity', 'All']
+
       # Format files
       - id: psscriptanalyzer-format

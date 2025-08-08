@@ -199,5 +199,3 @@ The hooks work well in CI/CD environments:
     pip install pre-commit
     pre-commit run --all-files
 ```
-
-For more CI/CD examples, see the [examples](examples.md) section.

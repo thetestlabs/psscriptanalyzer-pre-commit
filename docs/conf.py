@@ -9,7 +9,7 @@
 project = "PSScriptAnalyzer Pre-commit Hook"
 copyright = "2025, Chris McQuaid"  # noqa: A001
 author = "Chris McQuaid"
-release = "1.0.12"
+release = "1.0.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -45,7 +45,6 @@ myst_enable_extensions = [
     "fieldlist",
     "html_admonition",
     "html_image",
-    "linkify",
     "replacements",
     "smartquotes",
     "strikethrough",

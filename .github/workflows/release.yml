@@ -59,10 +59,8 @@ jobs:
     
     - name: Build documentation
       run: |
-        cd docs
-        make html
-      env:
-        SPHINXOPTS: "-W --keep-going"
+        mkdir -p docs/_static
+        uv run sphinx-build -b html docs docs/_build/html -W --keep-going
 
   publish-pypi:
     name: Build and publish to PyPI

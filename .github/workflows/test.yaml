@@ -29,7 +29,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv sync --dev
+          uv sync --group dev
 
       - name: Install PowerShell (Ubuntu/macOS)
         if: matrix.os != 'windows-latest'
@@ -51,22 +51,20 @@ jobs:
         run: uv run twine check dist/*
 
       - name: Install hook locally
-        run: uv pip install -e .
+        run: uv pip install --editable .
 
       - name: Test hook with pre-commit
+        shell: bash
         run: |
-          uv run python -c "
-          content = '''repos:
+          cat > .pre-commit-config.yaml << 'EOF'
+          repos:
             - repo: local
               hooks:
                 - id: psscriptanalyzer-local
                   name: PSScriptAnalyzer (local)
                   entry: psscriptanalyzer-hook
                   language: system
-                  files: \\\.(ps1|psm1|psd1)$
-          '''
-          with open('.pre-commit-config.yaml', 'w') as f:
-              f.write(content)
-          "
+                  files: \.(ps1|psm1|psd1)$
+          EOF
           uv run pre-commit install
           uv run pre-commit run --all-files

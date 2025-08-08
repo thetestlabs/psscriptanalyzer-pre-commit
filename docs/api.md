@@ -14,8 +14,14 @@ Main entry point for the PSScriptAnalyzer pre-commit hook.
 
 - `argv` (list, optional): Command line arguments. If None, uses `sys.argv[1:]`
 
-**Returns:**
+**Returns:****Compatibility:**
 
+- Python 3.9+
+- PowerShell Core 7.0+
+- Windows PowerShell 5.1+
+- Pre-commit 2.0+
+
+**Returns:**
 - `int`: Exit code (0 for success, non-zero for failure)
 
 **Example:**
@@ -395,4 +401,4 @@ def test_full_integration():
 - Windows PowerShell 5.1+
 - Pre-commit 2.0+
 
-For detailed changelog, see [changelog](changelog.md).
+For detailed changelog, see [CHANGELOG.md](../CHANGELOG.md).

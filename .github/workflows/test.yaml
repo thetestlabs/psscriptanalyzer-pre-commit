@@ -88,4 +88,25 @@ jobs:
                   files: \.(ps1|psm1|psd1)$
           EOF
           uv run pre-commit install
-          uv run pre-commit run --all-files
+
+          echo "=== Test 1: Verify hook finds issues in bad PowerShell files ==="
+          # Test that the hook correctly finds issues in bad PowerShell files
+          if uv run pre-commit run --all-files; then
+            echo "❌ FAIL: Pre-commit hook should have failed on intentionally bad PowerShell files!"
+            echo "This indicates the hook is not working correctly."
+            exit 1
+          else
+            echo "✅ PASS: Pre-commit hook correctly found issues in PowerShell files."
+          fi
+
+          echo "=== Test 2: Verify hook passes on clean PowerShell files ==="
+          # Test that the hook passes on clean files
+          if uv run pre-commit run --files test-good.ps1; then
+            echo "✅ PASS: Pre-commit hook correctly passed on clean PowerShell file."
+          else
+            echo "❌ FAIL: Pre-commit hook should have passed on clean PowerShell file!"
+            echo "This indicates the hook may have false positives."
+            exit 1
+          fi
+
+          echo "🎉 All tests passed! PSScriptAnalyzer hook is working correctly."

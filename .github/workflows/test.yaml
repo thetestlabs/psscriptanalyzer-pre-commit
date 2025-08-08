@@ -53,10 +53,6 @@ jobs:
       - name: Install hook locally
         run: uv pip install -e .
 
-      - name: Test hook directly
-        run: |
-          uv run python -m psscriptanalyzer_hook test-script.ps1
-
       - name: Test hook with pre-commit
         run: |
           uv run python -c "

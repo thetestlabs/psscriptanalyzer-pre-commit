@@ -401,4 +401,4 @@ def test_full_integration():
 - Windows PowerShell 5.1+
 - Pre-commit 2.0+
 
-For detailed changelog, see [CHANGELOG.md](../CHANGELOG.md).
+For detailed changelog, see [CHANGELOG.md](https://github.com/thetestlabs/psscriptanalyzer-pre-commit/blob/main/CHANGELOG.md).

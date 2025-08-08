@@ -528,6 +528,12 @@ wheels = [
 ]
 
 [[package]]
+name = "linkify"
+version = "1.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/65/c6/246100fa3967074d9725b3716913bd495823547bde5047050d4c3462f994/linkify-1.4.tar.gz", hash = "sha256:9ba276ba179525f7262820d90f009604e51cd4f1466c1112b882ef7eda243d5e", size = 1749, upload-time = "2009-11-12T21:42:00.934Z" }
+
+[[package]]
 name = "markdown-it-py"
 version = "3.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -849,6 +855,7 @@ dev = [
     { name = "twine" },
 ]
 docs = [
+    { name = "linkify" },
     { name = "myst-parser", version = "3.0.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "myst-parser", version = "4.0.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
     { name = "sphinx", version = "7.4.7", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
@@ -887,6 +894,7 @@ docs = [
 [package.metadata]
 requires-dist = [
     { name = "build", marker = "extra == 'dev'", specifier = ">=1.0.0" },
+    { name = "linkify", marker = "extra == 'docs'", specifier = ">=1.4" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.17.1" },
     { name = "myst-parser", marker = "extra == 'docs'", specifier = ">=3.0.1" },
     { name = "pre-commit", marker = "extra == 'dev'", specifier = ">=2.9.0" },

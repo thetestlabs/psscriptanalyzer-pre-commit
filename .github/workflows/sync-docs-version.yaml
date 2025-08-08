@@ -55,11 +55,21 @@ jobs:
           if pyproject_version != docs_version:
               print("Versions differ, updating docs")
 
+              # Extract short version (e.g., "1.0" from "1.0.0")
+              version_parts = pyproject_version.split('.')
+              short_version = '.'.join(version_parts[:2]) if len(version_parts) >= 2 else pyproject_version
+
               # Update docs/conf.py
+              updated_content = re.sub(
+                  r'^version = "[^"]*"',
+                  f'version = "{short_version}"',
+                  content,
+                  flags=re.MULTILINE
+              )
               updated_content = re.sub(
                   r'^release = "[^"]*"',
                   f'release = "{pyproject_version}"',
-                  content,
+                  updated_content,
                   flags=re.MULTILINE
               )
 

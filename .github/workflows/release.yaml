@@ -67,15 +67,25 @@ jobs:
               data = tomllib.load(f)
               version = data['project']['version']
 
+          # Extract short version (e.g., "1.0" from "1.0.0")
+          version_parts = version.split('.')
+          short_version = '.'.join(version_parts[:2]) if len(version_parts) >= 2 else version
+
           # Update docs/conf.py
           with open('docs/conf.py', 'r') as f:
               content = f.read()
 
-          # Replace the release line
+          # Replace both version and release lines
+          updated_content = re.sub(
+              r'^version = "[^"]*"',
+              f'version = "{short_version}"',
+              content,
+              flags=re.MULTILINE
+          )
           updated_content = re.sub(
               r'^release = "[^"]*"',
               f'release = "{version}"',
-              content,
+              updated_content,
               flags=re.MULTILINE
           )
 

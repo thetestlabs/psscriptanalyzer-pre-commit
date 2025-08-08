@@ -9,6 +9,7 @@
 project = "PSScriptAnalyzer Pre-commit Hook"
 copyright = "2025, Chris McQuaid"  # noqa: A001
 author = "Chris McQuaid"
+version = "1.0"
 release = "1.0.0"
 
 # -- General configuration ---------------------------------------------------

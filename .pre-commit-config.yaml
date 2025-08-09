@@ -6,7 +6,7 @@ repos:
         args: [--config-file, pyproject.toml]
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: cef0300fd0fc4d2a87a85fa2093c6b283ea36f4b
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c
     hooks:
       - id: trailing-whitespace
         exclude: ^examples/

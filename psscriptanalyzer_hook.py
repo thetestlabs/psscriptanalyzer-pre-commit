@@ -112,21 +112,9 @@ def _build_powershell_file_array(files: list[str]) -> str:
     return ",".join(escaped_files)
 
 
-def run_script_analyzer(
-    powershell_cmd: str,
-    files: list[str],
-    format_files: bool = False,
-    severity: str = "Warning",
-) -> int:
-    """Run PSScriptAnalyzer on the given files."""
-    if not files:
-        return 0
-
-    files_param = _build_powershell_file_array(files)
-
-    if format_files:
-        # Format files using Invoke-Formatter
-        ps_command = f"""
+def _generate_format_script(files_param: str) -> str:
+    """Generate PowerShell script for formatting files."""
+    return f"""
         $files = @({files_param})
         $exitCode = 0
         foreach ($file in $files) {{
@@ -144,12 +132,14 @@ def run_script_analyzer(
         }}
         exit $exitCode
         """
-    else:
-        # Analyze files using Invoke-ScriptAnalyzer
-        # Conditionally add Severity parameter - if "All" is selected, omit it to get all severities
-        severity_param = f"-Severity {severity}" if severity != "All" else ""
 
-        ps_command = f"""
+
+def _generate_analysis_script(files_param: str, severity: str) -> str:
+    """Generate PowerShell script for analyzing files."""
+    # Conditionally add Severity parameter - if "All" is selected, omit it to get all severities
+    severity_param = f"-Severity {severity}" if severity != "All" else ""
+
+    return f"""
         try {{
             $files = @({files_param})
             $issues = @()
@@ -227,6 +217,24 @@ def run_script_analyzer(
             exit 250
         }}
         """
+
+
+def run_script_analyzer(
+    powershell_cmd: str,
+    files: list[str],
+    format_files: bool = False,
+    severity: str = "Warning",
+) -> int:
+    """Run PSScriptAnalyzer on the given files."""
+    if not files:
+        return 0
+
+    files_param = _build_powershell_file_array(files)
+
+    if format_files:
+        ps_command = _generate_format_script(files_param)
+    else:
+        ps_command = _generate_analysis_script(files_param, severity)
 
     try:
         result = subprocess.run(

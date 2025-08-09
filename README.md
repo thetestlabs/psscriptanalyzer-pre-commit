@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0e8c07895cbe40979f49d315036c4957)](https://app.codacy.com/gh/thetestlabs/psscriptanalyzer-pre-commit?utm_source=github.com&utm_medium=referral&utm_content=thetestlabs/psscriptanalyzer-pre-commit&utm_campaign=Badge_Grade)
 [![codecov](https://codecov.io/github/thetestlabs/psscriptanalyzer-pre-commit/graph/badge.svg?token=TNARPWYQDS)](https://codecov.io/github/thetestlabs/psscriptanalyzer-pre-commit)
 [![docs](https://app.readthedocs.org/projects/psscriptanalyzer-pre-commit/badge/?version=latest)](https://readthedocs.org/projects/psscriptanalyzer-pre-commit/)
 [![PyPI version](https://badge.fury.io/py/psscriptanalyzer-pre-commit.svg)](https://badge.fury.io/py/psscriptanalyzer-pre-commit)

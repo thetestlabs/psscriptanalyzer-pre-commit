@@ -1,3 +1,7 @@
+[![codecov](https://codecov.io/github/thetestlabs/psscriptanalyzer-pre-commit/graph/badge.svg?token=TNARPWYQDS)](https://codecov.io/github/thetestlabs/psscriptanalyzer-pre-commit)
+[![docs](https://app.readthedocs.org/projects/psscriptanalyzer-pre-commit/badge/?version=latest)](https://readthedocs.org/projects/psscriptanalyzer-pre-commit/)
+[![PyPI version](https://badge.fury.io/py/psscriptanalyzer-pre-commit.svg)](https://badge.fury.io/py/psscriptanalyzer-pre-commit)
+
 # PSScriptAnalyzer Pre-commit Hook
 
 ---

@@ -10,6 +10,8 @@ from psscriptanalyzer_hook import (
     SEVERITY_LEVELS,
     _build_powershell_file_array,
     _escape_powershell_path,
+    _generate_analysis_script,
+    _generate_format_script,
     check_psscriptanalyzer_installed,
     find_powershell,
     install_psscriptanalyzer,
@@ -154,6 +156,39 @@ class TestPowershellHelpers:
         """Test building PowerShell array with no files."""
         result = _build_powershell_file_array([])
         assert result == ""
+
+
+class TestScriptGeneration:
+    """Test PowerShell script generation functions."""
+
+    def test_generate_format_script(self) -> None:
+        """Test format script generation."""
+        script = _generate_format_script("'test.ps1'")
+        assert "$files = @('test.ps1')" in script
+        assert "Invoke-Formatter" in script
+        assert "Set-Content" in script
+
+    def test_generate_analysis_script_with_severity(self) -> None:
+        """Test analysis script generation with severity."""
+        script = _generate_analysis_script("'test.ps1'", "Error")
+        assert "$files = @('test.ps1')" in script
+        assert "Invoke-ScriptAnalyzer" in script
+        assert "-Severity Error" in script
+
+    def test_generate_analysis_script_all_severity(self) -> None:
+        """Test analysis script generation with 'All' severity."""
+        script = _generate_analysis_script("'test.ps1'", "All")
+        assert "$files = @('test.ps1')" in script
+        assert "Invoke-ScriptAnalyzer" in script
+        assert "-Severity" not in script
+
+    def test_generate_analysis_script_contains_github_actions_logic(self) -> None:
+        """Test that analysis script contains GitHub Actions detection logic."""
+        script = _generate_analysis_script("'test.ps1'", "Warning")
+        assert "$isGitHubActions = $env:GITHUB_ACTIONS" in script
+        assert "error" in script  # Check for annotation type, not full format
+        assert "warning" in script
+        assert "notice" in script
 
 
 class TestRunScriptAnalyzer:

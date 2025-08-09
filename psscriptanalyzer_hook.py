@@ -136,7 +136,11 @@ def _generate_format_script(files_param: str) -> str:
 
 def _generate_analysis_script(files_param: str, severity: str) -> str:
     """Generate PowerShell script for analyzing files."""
-    # Conditionally add Severity parameter - if "All" is selected, omit it to get all severities
+    """
+    Generate PowerShell script for analyzing files.
+
+    Conditionally adds the Severity parameter: if "All" is selected, the parameter is omitted to get all severities.
+    """
     severity_param = f"-Severity {severity}" if severity != "All" else ""
 
     return f"""

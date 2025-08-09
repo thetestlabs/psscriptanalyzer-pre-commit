@@ -72,7 +72,7 @@ Full documentation at **[psscriptanalyzer-pre-commit.readthedocs.io](https://pss
 
 ## Contributing
 
-See the [Development Guide](https://psscriptanalyzer-pre-commit.readthedocs.io/en/latest/development.html) in our docs.
+See the [Development Guide](https://psscriptanalyzer-pre-commit.docs.thetestlabs.io/en/latest/development.html) in our docs.
 
 ## License
 

@@ -40,14 +40,13 @@ jobs:
       - name: Run tests
         run: |
           uv run pytest \
-            --cov=src/detect_commented_terraform \
+            --cov=psscriptanalyzer_hook \
             --cov-branch \
             --cov-report=xml \
-            --cov-report=html
-
-      - name: Run test analytics
-        run: |
-          uv run pytest --cov --junitxml=junit.xml -o junit_family=legacy
+            --cov-report=html \
+            --cov-report=term \
+            --junitxml=junit.xml \
+            -v --color=yes
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5

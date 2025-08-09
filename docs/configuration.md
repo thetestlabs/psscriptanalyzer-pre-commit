@@ -9,7 +9,7 @@ The PSScriptAnalyzer pre-commit hooks can be configured through your `.pre-commi
 ```yaml
 repos:
   - repo: https://github.com/thetestlabs/psscriptanalyzer-pre-commit
-    rev: v1.0.0
+    rev: v0.1.0
     hooks:
       - id: psscriptanalyzer
       - id: psscriptanalyzer-format
@@ -20,7 +20,7 @@ repos:
 ```yaml
 repos:
   - repo: https://github.com/thetestlabs/psscriptanalyzer-pre-commit
-    rev: v1.0.0  # Use the latest version
+    rev: v0.1.0  # Use the latest version
     hooks:
       # Static analysis with custom severity
       - id: psscriptanalyzer
@@ -183,7 +183,7 @@ Different rules for different directories:
 ```yaml
 repos:
   - repo: https://github.com/thetestlabs/psscriptanalyzer-pre-commit
-    rev: v1.0.0
+    rev: v0.1.0
     hooks:
       # Strict checking for production code
       - id: psscriptanalyzer
@@ -299,7 +299,7 @@ Combine with other pre-commit hooks:
 repos:
   # PowerShell hooks
   - repo: https://github.com/thetestlabs/psscriptanalyzer-pre-commit
-    rev: v1.0.0
+    rev: v0.1.0
     hooks:
       - id: psscriptanalyzer
       - id: psscriptanalyzer-format
@@ -328,7 +328,7 @@ For repositories with multiple languages:
 repos:
   # PowerShell in src/powershell/
   - repo: https://github.com/thetestlabs/psscriptanalyzer-pre-commit
-    rev: v1.0.0
+    rev: v0.1.0
     hooks:
       - id: psscriptanalyzer
         files: ^src/powershell/.*\.(ps1|psm1)$

@@ -7,3 +7,6 @@ rules:
   truthy: disable  # Disable for GitHub Actions compatibility
   comments:
     min-spaces-from-content: 2
+
+ignore:
+  - /.github/workflows/coverall.yaml

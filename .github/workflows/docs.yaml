@@ -73,17 +73,3 @@ jobs:
           name: documentation
           path: docs/_build/html/
           retention-days: 30
-
-  deploy:
-    name: Deploy to ReadTheDocs
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Trigger ReadTheDocs build
-        run: |
-          curl -X POST \
-            -H "Authorization: Token ${{ secrets.READTHEDOCS_TOKEN }}" \
-            https://readthedocs.org/api/v3/projects/psscriptanalyzer-pre-commit/versions/latest/builds/
-        continue-on-error: true # Don't fail the workflow if RTD webhook fails

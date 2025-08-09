@@ -50,7 +50,6 @@ jobs:
           uv run pytest --cov --junitxml=junit.xml -o junit_family=legacy
 
       - name: Upload coverage to Codecov
-        if: github.event_name == 'push' && matrix.python-version == '3.13'
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -74,4 +73,5 @@ jobs:
           path: |
             coverage.xml
             htmlcov/
+            junit.xml
           retention-days: 30

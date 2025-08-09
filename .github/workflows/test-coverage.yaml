@@ -64,6 +64,12 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
+      - name: Upload coverage to Codacy
+        uses: codacy/codacy-coverage-reporter-action@v1.3.0
+        with:
+          api-token: ${{ secrets.CODACY_API_TOKEN }}
+          coverage-reports: coverage.xml
+
       - name: Upload coverage artifacts
         if: matrix.python-version == '3.13'
         uses: actions/upload-artifact@v4

@@ -144,7 +144,7 @@ hooks:
 ```yaml
 repos:
   - repo: https://github.com/thetestlabs/psscriptanalyzer-pre-commit
-    rev: v1.0.0
+    rev: v0.1.0
     hooks:
       - id: psscriptanalyzer
         args: ["--severity", "Error"]
@@ -156,7 +156,7 @@ repos:
 ```yaml
 repos:
   - repo: https://github.com/thetestlabs/psscriptanalyzer-pre-commit
-    rev: v1.0.0
+    rev: v0.1.0
     hooks:
       - id: psscriptanalyzer
         args: ["--severity", "Information"]

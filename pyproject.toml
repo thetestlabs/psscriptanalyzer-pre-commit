@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "psscriptanalyzer-pre-commit"
-version = "1.0.0"
+version = "0.1.0"
 description = "Pre-commit hook for PSScriptAnalyzer - PowerShell static analysis and formatting"
 readme = "README.md"
 license = { text = "MIT" }
@@ -33,7 +33,6 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    "Programming Language :: Other",
     "Topic :: Software Development :: Quality Assurance",
     "Topic :: Software Development :: Testing",
     "Topic :: Text Processing :: Linguistic",
@@ -44,7 +43,7 @@ classifiers = [
 Homepage = "https://github.com/thetestlabs/psscriptanalyzer-pre-commit"
 Repository = "https://github.com/thetestlabs/psscriptanalyzer-pre-commit"
 Issues = "https://github.com/thetestlabs/psscriptanalyzer-pre-commit/issues"
-Documentation = "https://psscriptanalyzer-pre-commit.readthedocs.io/"
+Documentation = "https://psscriptanalyzer-pre-commit.thetestlabs.io/"
 Changelog = "https://github.com/thetestlabs/psscriptanalyzer-pre-commit/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]

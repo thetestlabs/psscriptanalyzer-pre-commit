@@ -51,8 +51,8 @@ repos:
     rev: v1.17.1
     hooks:
       - id: mypy
-        additional_dependencies:
-          [types-toml, types-PyYAML, pytest, types-setuptools]
+        additional_dependencies: [types-toml, types-PyYAML, pytest,
+                                  types-setuptools]
         args: [--ignore-missing-imports]
 
   - repo: https://github.com/PyCQA/bandit
@@ -63,7 +63,7 @@ repos:
         additional_dependencies: ["bandit[toml]"]
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 2406eafa8b8cc84a269655e8947460863fb3971f
+    rev: fb5a27193ad89e24d37319409d242dfd43a235dd
     hooks:
       - id: uv-lock
 

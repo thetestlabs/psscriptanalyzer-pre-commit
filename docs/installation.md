@@ -101,7 +101,7 @@ repos:
   # ... your existing hooks ...
 
   - repo: https://github.com/thetestlabs/psscriptanalyzer-pre-commit
-    rev: v1.0.0  # Use the latest version
+    rev: v0.1.0  # Use the latest version
     hooks:
       # Lint PowerShell files
       - id: psscriptanalyzer
@@ -118,7 +118,7 @@ If you don't have a pre-commit configuration file, create one:
 ```yaml
 repos:
   - repo: https://github.com/thetestlabs/psscriptanalyzer-pre-commit
-    rev: v1.0.0  # Use the latest version
+    rev: v0.1.0  # Use the latest version
     hooks:
       # Lint PowerShell files (show warnings and errors)
       - id: psscriptanalyzer

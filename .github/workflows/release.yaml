@@ -2,8 +2,6 @@ name: Release
 
 on:
   push:
-    branches:
-      - main
     tags:
       - "v*.*.*"
 
@@ -111,7 +109,6 @@ jobs:
     name: Deploy to ReadTheDocs
     runs-on: ubuntu-latest
     needs: build-docs
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - name: Trigger ReadTheDocs build
@@ -119,7 +116,7 @@ jobs:
           curl -X POST \
             -H "Authorization: Token ${{ secrets.READTHEDOCS_TOKEN }}" \
             https://readthedocs.org/api/v3/projects/psscriptanalyzer-pre-commit/versions/latest/builds/
-        continue-on-error: true # Don't fail the workflow if RTD webhook fails
+        continue-on-error: true  # Don't fail the workflow if RTD webhook fails
 
   publish-pypi:
     name: Build and publish to PyPI
@@ -129,7 +126,7 @@ jobs:
       name: pypi
       url: https://pypi.org/p/psscriptanalyzer-pre-commit
     permissions:
-      id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
+      id-token: write  # IMPORTANT: this permission is mandatory for trusted publishing
 
     steps:
       - name: Checkout code

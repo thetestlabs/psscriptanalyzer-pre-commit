@@ -9,6 +9,7 @@ A pre-commit hook for PSScriptAnalyzer that provides PowerShell static analysis 
 installation
 usage
 configuration
+development
 api
 changelog
 ```
@@ -21,7 +22,7 @@ changelog
    # .pre-commit-config.yaml
    repos:
      - repo: https://github.com/thetestlabs/psscriptanalyzer-pre-commit
-       rev: v1.0.0
+       rev: v0.1.0
        hooks:
          - id: psscriptanalyzer
          - id: psscriptanalyzer-format

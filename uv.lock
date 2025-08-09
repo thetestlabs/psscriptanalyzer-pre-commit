@@ -847,7 +847,7 @@ wheels = [
 
 [[package]]
 name = "psscriptanalyzer-pre-commit"
-version = "1.0.0"
+version = "0.1.0"
 source = { editable = "." }
 
 [package.optional-dependencies]

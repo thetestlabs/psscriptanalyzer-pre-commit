@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "psscriptanalyzer-pre-commit"
-version = "0.1.0"
+version = "1.0.0"
 description = "Pre-commit hook for PSScriptAnalyzer - PowerShell static analysis and formatting"
 readme = "README.md"
 license = { text = "MIT" }

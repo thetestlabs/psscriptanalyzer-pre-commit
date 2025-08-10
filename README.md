@@ -1,12 +1,11 @@
 [![codecov](https://codecov.io/github/thetestlabs/psscriptanalyzer-pre-commit/graph/badge.svg?token=TNARPWYQDS)](https://codecov.io/github/thetestlabs/psscriptanalyzer-pre-commit)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8a0abedfefc04e2c8cd015eac0aa8f63)](https://app.codacy.com/gh/thetestlabs/psscriptanalyzer-pre-commit/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/8a0abedfefc04e2c8cd015eac0aa8f63)](https://app.codacy.com/gh/thetestlabs/psscriptanalyzer-pre-commit/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_coverage)
 [![docs](https://app.readthedocs.org/projects/psscriptanalyzer-pre-commit/badge/?version=latest)](https://readthedocs.org/projects/psscriptanalyzer-pre-commit/)
 [![PyPI version](https://badge.fury.io/py/psscriptanalyzer-pre-commit.svg)](https://badge.fury.io/py/psscriptanalyzer-pre-commit)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![GitHub commits since latest release](https://img.shields.io/github/commits-since/thetestlabs/psscriptanalyzer-pre-commit/latest/main)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Code style: ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Python Compatibility](https://img.shields.io/pypi/pyversions/psscriptanalyzer-pre-commit)](https://pypi.org/project/psscriptanalyzer-pre-commit/)
+[![Test PSScriptAnalyzer Hook](https://github.com/thetestlabs/psscriptanalyzer-pre-commit/actions/workflows/test-psscriptanalyzer-hook.yaml/badge.svg)](https://github.com/thetestlabs/psscriptanalyzer-pre-commit/actions/workflows/test-psscriptanalyzer-hook.yaml)
 
 # PSScriptAnalyzer Pre-commit Hook
 
@@ -20,10 +19,10 @@ A pre-commit hook for [PSScriptAnalyzer](https://github.com/PowerShell/PSScriptA
 
 ## What it does
 
-✅ **Lints PowerShell files** (`.ps1`, `.psm1`, `.psd1`) for code quality issues
-✅ **Formats PowerShell code** automatically
-✅ **Works everywhere** - Windows, macOS, Linux
-✅ **Zero config** - installs PSScriptAnalyzer automatically
+✅ **Lints PowerShell files** (`.ps1`, `.psm1`, `.psd1`) for code quality issues  
+✅ **Formats PowerShell code** automatically  
+✅ **Works everywhere** - Windows, macOS, Linux  
+✅ **Zero config** - installs PSScriptAnalyzer automatically  
 ✅ **GitHub Actions ready** - standard error annotations
 
 ## Quick Start

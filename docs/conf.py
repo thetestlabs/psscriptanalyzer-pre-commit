@@ -7,10 +7,10 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "PSScriptAnalyzer Pre-commit Hook"
-copyright = "2025, Chris McQuaid"  # noqa: A001
+copyright = "%Y, Chris McQuaid"  # noqa: A001
 author = "Chris McQuaid"
-version = "0.1"
-release = "0.1.0"
+version = "1.0"
+release = "1.0.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

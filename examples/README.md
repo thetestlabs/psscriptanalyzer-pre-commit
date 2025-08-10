@@ -42,7 +42,7 @@ Critical problems that should always be fixed:
 
 ### Warning Level Issues (Orange) 🟡
 
-Important issues that affect code quality:
+Important issues that affect code quality and should be addressed::
 
 - **PSUseApprovedVerbs**: Non-approved verbs in function names
 - **PSUseSingularNouns**: Plural nouns in function names
@@ -182,6 +182,225 @@ git commit -m "Test commit"  # Will be blocked by hooks
 pre-commit run psscriptanalyzer-format --files examples/**/*.ps1
 ```
 
+### Formatting PowerShell Files
+
+The pre-commit hook can automatically format PowerShell code using PSScriptAnalyzer's `Invoke-Formatter`:
+
+```bash
+# Format all PowerShell files in examples
+pre-commit run psscriptanalyzer-format --all-files
+
+# Format specific files
+pre-commit run psscriptanalyzer-format --files examples/scripts/BadScript.ps1
+
+# Format files with issues (like inconsistent indentation)
+pre-commit run psscriptanalyzer-format --files examples/scripts/ConfigurationIssues.ps1
+
+# See what would be formatted (dry run)
+git add examples/scripts/BadScript.ps1
+git commit -m "Test formatting" --dry-run
+```
+
+#### Before and After Formatting Example
+
+**Before formatting** (inconsistent style):
+```powershell
+function Get-UserData{
+    param($UserName,$Domain)
+    
+  if($UserName){
+      write-host "Processing: $UserName"
+        $result=Get-ADUser -Identity $UserName
+    return $result}
+}
+```
+
+**After formatting** (consistent style):
+```powershell
+function Get-UserData {
+    param(
+        $UserName,
+        $Domain
+    )
+    
+    if ($UserName) {
+        Write-Host "Processing: $UserName"
+        $result = Get-ADUser -Identity $UserName
+        return $result
+    }
+}
+```
+
+### GitHub Actions Integration
+
+Here's how to use these examples with GitHub Actions for both linting and formatting:
+
+#### Complete GitHub Actions Workflow
+
+```yaml
+name: PowerShell Code Quality
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  powershell-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install PowerShell
+      run: |
+        # Install PowerShell on Linux
+        wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
+        sudo dpkg -i packages-microsoft-prod.deb
+        sudo apt-get update
+        sudo apt-get install -y powershell
+    
+    - name: Install pre-commit
+      run: |
+        pip install pre-commit
+        pip install psscriptanalyzer-pre-commit
+    
+    - name: Run PSScriptAnalyzer Linting
+      run: |
+        # This will show errors with GitHub Actions annotations
+        pre-commit run psscriptanalyzer --all-files
+      continue-on-error: true  # Don't fail the build, just report
+    
+    - name: Run PowerShell Formatting Check
+      run: |
+        # Check if files need formatting
+        pre-commit run psscriptanalyzer-format --all-files
+        
+        # Check for any changes after formatting
+        if [[ -n $(git status --porcelain) ]]; then
+          echo "❌ Files need formatting. Run 'pre-commit run psscriptanalyzer-format --all-files' locally."
+          git diff
+          exit 1
+        else
+          echo "✅ All PowerShell files are properly formatted."
+        fi
+    
+    # Optional: Auto-format and commit back (for specific workflows)
+    - name: Auto-format PowerShell Files
+      if: github.event_name == 'pull_request'
+      run: |
+        pre-commit run psscriptanalyzer-format --all-files
+        
+        # Commit changes if any
+        if [[ -n $(git status --porcelain) ]]; then
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git commit -m "Auto-format PowerShell files [skip ci]"
+          git push
+        fi
+```
+
+#### Simplified Linting-Only Workflow
+
+```yaml
+name: PowerShell Linting
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python and PowerShell
+      run: |
+        pip install pre-commit psscriptanalyzer-pre-commit
+        sudo apt-get update && sudo apt-get install -y powershell
+    
+    - name: Run PSScriptAnalyzer
+      run: |
+        # Test examples (should find issues)
+        echo "Testing examples directory..."
+        pre-commit run psscriptanalyzer --files examples/**/*.ps* || true
+        
+        # Test actual PowerShell files (should pass)
+        echo "Testing project PowerShell files..."
+        find . -name "*.ps1" -o -name "*.psm1" -o -name "*.psd1" | grep -v examples/ | xargs pre-commit run psscriptanalyzer --files
+```
+
+#### Using with Matrix Strategy
+
+```yaml
+name: Cross-Platform PowerShell Testing
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        severity: [Error, Warning, Information]
+    
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install PowerShell (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y powershell
+    
+    - name: Install PowerShell (macOS)
+      if: runner.os == 'macOS'
+      run: brew install powershell
+    
+    - name: Install pre-commit tools
+      run: |
+        pip install pre-commit psscriptanalyzer-pre-commit
+    
+    - name: Test Examples with Severity ${{ matrix.severity }}
+      run: |
+        # Run with specific severity level
+        pre-commit run psscriptanalyzer --files examples/**/*.ps* -- --severity ${{ matrix.severity }}
+      continue-on-error: true
+```
+
+### Expected GitHub Actions Output
+
+When running in GitHub Actions, you'll see annotations like:
+
+**Error Annotations (Red):**
+```text
+::error file=examples/scripts/BadScript.ps1,line=15,title=PSAvoidUsingPlainTextForPassword::Parameter 'password' should use SecureString
+```
+
+**Warning Annotations (Orange):**
+```text
+::warning file=examples/scripts/BadScript.ps1,line=6,title=PSUseApprovedVerbs::The cmdlet 'Download-File' uses the verb 'Download' which is not approved
+```
+
+**Information Annotations (Blue):**
+```text
+::notice file=examples/scripts/BadScript.ps1,line=23,title=PSProvideCommentHelp::The function 'Download-File' does not have a help comment
+```
+
 ### GitHub Actions Integration
 
 The examples work great with GitHub Actions annotations. When run in CI/CD, you'll see:
@@ -189,6 +408,8 @@ The examples work great with GitHub Actions annotations. When run in CI/CD, you'
 - **Error annotations** appear as red error markers
 - **Warning annotations** appear as orange warning markers  
 - **Information annotations** appear as blue notice markers
+
+See the detailed GitHub Actions examples above for complete workflow configurations.
 
 ### Learning PowerShell Best Practices
 

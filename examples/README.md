@@ -12,22 +12,22 @@ The `examples/` directory contains PowerShell files with intentional errors that
 
 ```text
 examples/
-├── README.md                    # This file
-├── scripts/                     # Script examples with various issues
-│   ├── BadScript.ps1            # Basic scripting mistakes
-│   ├── MixedSeverity.ps1        # All severity levels demonstrated
-│   ├── AdvancedIssues.ps1       # Complex rule violations
+├── README.md                     # This file
+├── scripts/                      # Script examples with various issues
+│   ├── BadScript.ps1             # Basic scripting mistakes
+│   ├── MixedSeverity.ps1         # All severity levels demonstrated
+│   ├── AdvancedIssues.ps1        # Complex rule violations
 │   ├── ConfigurationIssues.ps1   # Configuration-related problems
-│   ├── InformationIssues.ps1    # Information-level violations
-│   ├── EdgeCases.ps1            # Edge case scenarios
-│   └── test.ps1                 # Simple test script
-├── modules/                     # Module examples
-│   ├── BadModule.psm1           # Module with security/performance issues
-│   └── BadModule.psd1           # Module manifest with errors
-├── functions/                   # Function examples
-│   └── BadFunctions.psm1        # Function-specific violations
-└── classes/                     # Class examples
-    └── BadClasses.ps1           # PowerShell class issues
+│   ├── InformationIssues.ps1     # Information-level violations
+│   ├── EdgeCases.ps1             # Edge case scenarios
+│   └── test.ps1                  # Simple test script
+├── modules/                      # Module examples
+│   ├── BadModule.psm1            # Module with security/performance issues
+│   └── BadModule.psd1            # Module manifest with errors
+├── functions/                    # Function examples
+│   └── BadFunctions.psm1         # Function-specific violations
+└── classes/                      # Class examples
+    └── BadClasses.ps1            # PowerShell class issues
 ```
 
 ## Error Categories by Severity

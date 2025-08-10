@@ -23,7 +23,7 @@ A pre-commit hook for [PSScriptAnalyzer](https://github.com/PowerShell/PSScriptA
 ✅ **Formats PowerShell code** automatically  
 ✅ **Works everywhere** - Windows, macOS, Linux  
 ✅ **Zero config** - installs PSScriptAnalyzer automatically  
-✅ **GitHub Actions ready** - standard error annotations
+✅ **GitHub Actions ready** - with standard error annotations
 
 ## Quick Start
 
@@ -77,11 +77,11 @@ Need PowerShell? Get it here:
 
 ## Documentation
 
-Full documentation at **[psscriptanalyzer-pre-commit.readthedocs.io](https://psscriptanalyzer-pre-commit.readthedocs.io/)**
+Full documentation can be found **[here](https://psscriptanalyzer-pre-commit.thetestlabs.io/)**
 
 ## Contributing
 
-See the [Development Guide](https://psscriptanalyzer-pre-commit.docs.thetestlabs.io/en/latest/development.html) in our docs.
+See the **[Development Guide](https://psscriptanalyzer-pre-commit.thetestlabs.io/en/latest/development.html)** in our docs.
 
 ## License
 

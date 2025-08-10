@@ -12,85 +12,97 @@ The `examples/` directory contains PowerShell files with intentional errors that
 
 ```text
 examples/
-├── README.md                    # This file
-├── basic-script-errors.ps1      # Common scripting mistakes
-├── advanced-errors.ps1          # Complex rule violations
-├── module-errors.psm1          # Module-specific issues
-├── manifest-errors.psd1        # Manifest validation errors
-├── formatting-issues.ps1       # Code style violations
-├── security-issues.ps1         # Security-related problems
-└── performance-issues.ps1      # Performance anti-patterns
+├── README.md                   # This file
+├── scripts/                    # Script examples with various issues
+│   ├── BadScript.ps1           # Basic scripting mistakes
+│   ├── MixedSeverity.ps1       # All severity levels demonstrated
+│   ├── AdvancedIssues.ps1      # Complex rule violations
+│   ├── ConfigurationIssues.ps1  # Configuration-related problems
+│   ├── InformationIssues.ps1   # Information-level violations
+│   ├── EdgeCases.ps1           # Edge case scenarios
+│   └── test.ps1                # Simple test script
+├── modules/                    # Module examples
+│   ├── BadModule.psm1          # Module with security/performance issues
+│   └── BadModule.psd1          # Module manifest with errors
+├── functions/                  # Function examples
+│   └── BadFunctions.psm1       # Function-specific violations
+└── classes/                    # Class examples
+    └── BadClasses.ps1          # PowerShell class issues
 ```
 
-## Error Categories Covered
+## Error Categories by Severity
 
-### 1. Basic Script Errors (`basic-script-errors.ps1`)
+### Error Level Issues (Red) 🔴
 
-Common mistakes in PowerShell scripts:
+Critical problems that should always be fixed:
 
-- **PSAvoidUsingCmdletAliases**: Using aliases instead of full cmdlet names
-- **PSUseSingularNouns**: Plural nouns in function names
-- **PSAvoidDefaultValueSwitchParameter**: Default values on switch parameters
+- **PSAvoidUsingPlainTextForPassword**: Plain text passwords in code
+- **PSAvoidUsingInvokeExpression**: Dangerous `Invoke-Expression` usage
+- **PSAvoidUsingConvertToSecureStringWithPlainText**: Insecure string conversion
+
+### Warning Level Issues (Orange) 🟡
+
+Important issues that affect code quality:
+
 - **PSUseApprovedVerbs**: Non-approved verbs in function names
-- **PSUseDeclaredVarsMoreThanAssignments**: Variables that are assigned but never used
-
-### 2. Advanced Errors (`advanced-errors.ps1`)
-
-More complex rule violations:
-
-- **PSAvoidUsingPositionalParameters**: Relying on parameter positions
-- **PSAvoidGlobalVars**: Using global variables inappropriately
+- **PSUseSingularNouns**: Plural nouns in function names
+- **PSAvoidUsingWriteHost**: Using `Write-Host` inappropriately
+- **PSUseDeclaredVarsMoreThanAssignments**: Variables assigned but never used
 - **PSUseShouldProcessForStateChangingFunctions**: Missing ShouldProcess support
-- **PSAvoidUsingWMICmdlet**: Using deprecated WMI cmdlets
-- **PSUsePSCredentialType**: Incorrect credential parameter types
 
-### 3. Module Errors (`module-errors.psm1`)
+### Information Level Issues (Cyan) 🔵
 
-Module-specific issues:
+Style and best practice suggestions:
 
-- **PSMissingModuleManifestField**: Missing required manifest fields
-- **PSUseToExportFieldsInManifest**: Incorrect export definitions
-- **PSAvoidUsingWriteHost**: Using Write-Host in modules
+- **PSAvoidUsingDoubleQuotesForConstantString**: Unnecessary double quotes
+- **PSUseCorrectCasing**: Incorrect cmdlet casing
 - **PSProvideCommentHelp**: Missing comment-based help
 
-### 4. Manifest Errors (`manifest-errors.psd1`)
+## Example Files Breakdown
 
-PowerShell manifest validation:
+### Scripts Directory
 
-- **PSMissingModuleManifestField**: Required fields missing
-- **PSInvalidModuleManifestField**: Invalid field values
-- **PSAvoidTrailingWhitespace**: Whitespace issues
-- **PSUseBOMForUnicodeEncodedFile**: Encoding problems
+**`BadScript.ps1`** - Demonstrates basic scripting issues:
+- Variable naming problems
+- Unused parameters and variables  
+- Plain text password handling
+- Missing ShouldProcess support
 
-### 5. Formatting Issues (`formatting-issues.ps1`)
+**`MixedSeverity.ps1`** - Shows all three severity levels:
+- Error: Security vulnerabilities
+- Warning: Code quality issues
+- Information: Style suggestions
 
-Code style and formatting:
+**`AdvancedIssues.ps1`** - Complex rule violations:
+- Advanced security concerns
+- Performance anti-patterns
+- Module design issues
 
-- **PSPlaceOpenBrace**: Brace placement inconsistencies
-- **PSPlaceCloseBrace**: Closing brace issues
-- **PSUseConsistentIndentation**: Inconsistent indentation
-- **PSUseConsistentWhitespace**: Whitespace inconsistencies
-- **PSAlignAssignmentStatement**: Assignment alignment
+### Modules Directory
 
-### 6. Security Issues (`security-issues.ps1`)
+**`BadModule.psm1`** - Module-specific problems:
+- Security vulnerabilities in authentication
+- Performance issues
+- Module design violations
 
-Security-related concerns:
+**`BadModule.psd1`** - Manifest validation errors:
+- Missing required fields
+- Invalid field values
+- Encoding issues
 
-- **PSAvoidUsingPlainTextForPassword**: Plain text passwords
-- **PSAvoidUsingConvertToSecureStringWithPlainText**: Insecure string conversion
-- **PSUsePSCredentialType**: Credential handling
-- **PSAvoidUsingUsernameAndPasswordParams**: Separate username/password parameters
-- **PSAvoidHardcodedCredentials**: Hardcoded credentials
+### Functions Directory
 
-### 7. Performance Issues (`performance-issues.ps1`)
+**`BadFunctions.psm1`** - Function design issues:
+- Parameter validation problems
+- Function naming violations
+- Help documentation issues
 
-Performance anti-patterns:
+### Classes Directory
 
-- **PSUseSingularNouns**: Inefficient patterns
-- **PSAvoidUsingWMICmdlet**: Deprecated slow cmdlets
-- **PSUseProcessBlockForPipelineCommand**: Missing process blocks
-- **PSReviewUnusedParameter**: Unused parameters
-- **PSAvoidLongLines**: Overly long lines
+**`BadClasses.ps1`** - PowerShell class problems:
+- Class design violations
+- Property and method issues
+- Inheritance problems
 
 ## Running Examples
 
@@ -100,7 +112,7 @@ Run PSScriptAnalyzer on all example files:
 
 ```bash
 # Using pre-commit (will fail as expected)
-pre-commit run psscriptanalyzer --files examples/*.ps*
+pre-commit run psscriptanalyzer --files examples/**/*.ps*
 
 # Direct PowerShell analysis
 pwsh -Command "Invoke-ScriptAnalyzer -Path ./examples/ -Recurse"
@@ -111,27 +123,33 @@ pwsh -Command "Invoke-ScriptAnalyzer -Path ./examples/ -Recurse"
 Run analysis on specific file types:
 
 ```bash
-# Test basic script errors
-pre-commit run psscriptanalyzer --files examples/basic-script-errors.ps1
+# Test all scripts
+pre-commit run psscriptanalyzer --files examples/scripts/*.ps1
 
 # Test module issues
-pre-commit run psscriptanalyzer --files examples/module-errors.psm1
+pre-commit run psscriptanalyzer --files examples/modules/BadModule.psm1
 
 # Test manifest problems
-pre-commit run psscriptanalyzer --files examples/manifest-errors.psd1
+pre-commit run psscriptanalyzer --files examples/modules/BadModule.psd1
+
+# Test function issues
+pre-commit run psscriptanalyzer --files examples/functions/BadFunctions.psm1
+
+# Test class issues
+pre-commit run psscriptanalyzer --files examples/classes/BadClasses.ps1
 ```
 
 ### Test with Different Severity Levels
 
 ```bash
-# Only show errors
-pwsh -Command "Invoke-ScriptAnalyzer -Path ./examples/ -Severity Error"
+# Only show errors (critical issues)
+pwsh -Command "Invoke-ScriptAnalyzer -Path ./examples/ -Recurse -Severity Error"
 
-# Show warnings and errors
-pwsh -Command "Invoke-ScriptAnalyzer -Path ./examples/ -Severity Warning"
+# Show warnings and errors (recommended)
+pwsh -Command "Invoke-ScriptAnalyzer -Path ./examples/ -Recurse -Severity Warning"
 
 # Show all issues including information
-pwsh -Command "Invoke-ScriptAnalyzer -Path ./examples/ -Severity Information"
+pwsh -Command "Invoke-ScriptAnalyzer -Path ./examples/ -Recurse -Severity Information"
 ```
 
 ## Expected Output
@@ -139,11 +157,11 @@ pwsh -Command "Invoke-ScriptAnalyzer -Path ./examples/ -Severity Information"
 When running PSScriptAnalyzer on these examples, you should see output similar to:
 
 ```text
-examples/basic-script-errors.ps1:5:1: PSAvoidUsingCmdletAliases: 'ls' is an alias of 'Get-ChildItem'. Alias can introduce possible problems and make scripts hard to maintain. Please consider changing alias to its full content.
+examples/scripts/BadScript.ps1:15:5: PSAvoidUsingPlainTextForPassword: Parameter 'password' should use SecureString, otherwise this will expose passwords.
 
-examples/basic-script-errors.ps1:10:10: PSUseSingularNouns: The cmdlet 'Get-Users' uses a plural noun. A singular noun should be used instead.
+examples/scripts/BadScript.ps1:6:10: PSUseApprovedVerbs: The cmdlet 'Download-File' uses the verb 'Download' which is not in the list of approved verbs.
 
-examples/security-issues.ps1:3:1: PSAvoidUsingPlainTextForPassword: Parameter 'Password' should use SecureString, otherwise this will expose passwords. Please consider changing the type to SecureString.
+examples/modules/BadModule.psm1:8:9: PSAvoidUsingUserNameAndPasswordParams: Function 'Connect-ToService' has both Username and Password parameters.
 ```
 
 ## Using Examples for Development
@@ -161,46 +179,51 @@ git add examples/
 git commit -m "Test commit"  # Will be blocked by hooks
 
 # Run formatting (may fix some issues)
-pre-commit run psscriptanalyzer-format --files examples/*.ps1
+pre-commit run psscriptanalyzer-format --files examples/**/*.ps1
 ```
 
-### CI/CD Pipeline Testing
+### GitHub Actions Integration
 
-Use examples in continuous integration:
+The examples work great with GitHub Actions annotations. When run in CI/CD, you'll see:
 
-```yaml
-# GitHub Actions example
-- name: Test PSScriptAnalyzer Examples
-  run: |
-    # Should find violations
-    pwsh -Command "
-      $results = Invoke-ScriptAnalyzer -Path ./examples/ -Recurse
-      if ($results.Count -eq 0) {
-        Write-Error 'Expected violations in examples but found none'
-        exit 1
-      }
-      Write-Host 'Found expected violations:' $results.Count
-    "
-```
+- **Error annotations** appear as red error markers
+- **Warning annotations** appear as orange warning markers  
+- **Information annotations** appear as blue notice markers
 
 ### Learning PowerShell Best Practices
 
 Each file demonstrates what NOT to do:
 
-1. **Read the comments**: Each violation is documented
+1. **Read the comments**: Each violation is documented in the code
 2. **Run analysis**: See what PSScriptAnalyzer reports
 3. **Fix the issues**: Practice correcting common problems
 4. **Compare results**: See how the analysis output changes
+
+## Severity Level Testing
+
+Use the `MixedSeverity.ps1` file to test different severity configurations:
+
+```bash
+# Test Error only (should show 2-3 issues)
+pwsh -Command "Invoke-ScriptAnalyzer -Path ./examples/scripts/MixedSeverity.ps1 -Severity Error"
+
+# Test Warning and above (should show 5-7 issues)
+pwsh -Command "Invoke-ScriptAnalyzer -Path ./examples/scripts/MixedSeverity.ps1 -Severity Warning"
+
+# Test All levels (should show 10+ issues)
+pwsh -Command "Invoke-ScriptAnalyzer -Path ./examples/scripts/MixedSeverity.ps1 -Severity Information"
+```
 
 ## Contributing New Examples
 
 To add new example violations:
 
 1. **Identify the rule**: Find a PSScriptAnalyzer rule not covered
-2. **Create minimal reproduction**: Write the smallest code that triggers the rule
-3. **Add comments**: Explain what the violation demonstrates
-4. **Test thoroughly**: Ensure PSScriptAnalyzer detects the issue
-5. **Document**: Add to this README under the appropriate category
+2. **Choose the right directory**: Scripts, modules, functions, or classes
+3. **Create minimal reproduction**: Write the smallest code that triggers the rule
+4. **Add comments**: Explain what the violation demonstrates
+5. **Test thoroughly**: Ensure PSScriptAnalyzer detects the issue
+6. **Update this README**: Document the new example
 
 ### Example Template
 
@@ -223,22 +246,13 @@ function Bad-Example {
 
 ## Integration with Documentation
 
-These examples are referenced throughout the documentation:
+These examples are referenced throughout the project documentation:
 
-- **Installation Guide**: Used to verify hook installation
-- **Usage Examples**: Demonstrate hook behavior
-- **Configuration**: Show how different settings affect output
+- **Installation Guide**: Used to verify hook installation works
+- **Usage Examples**: Demonstrate different hook behaviors
+- **Configuration Guide**: Show how settings affect output
 - **Troubleshooting**: Help diagnose hook issues
-
-## Maintenance
-
-The examples are maintained to:
-
-- **Stay current**: Updated when new PSScriptAnalyzer rules are added
-- **Remain comprehensive**: Cover all major rule categories
-- **Be educational**: Clear comments explaining each violation
-- **Test thoroughly**: Verified against multiple PowerShell versions
 
 ## Summary
 
-These intentionally flawed PowerShell files provide a comprehensive test suite for the PSScriptAnalyzer pre-commit hooks. They serve as both a learning resource for PowerShell best practices and a validation tool for the hook implementation across different platforms and PowerShell versions.
+The examples directory provides a comprehensive test suite organized by PowerShell construct type (scripts, modules, functions, classes). Each file contains intentionally flawed code that demonstrates specific PSScriptAnalyzer rules across all severity levels. They serve as both a learning resource for PowerShell best practices and a validation tool for the pre-commit hook implementation.

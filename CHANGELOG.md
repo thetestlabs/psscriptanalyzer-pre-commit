@@ -1,11 +1,6 @@
-# Changelog
+# Change Log
 
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-## [0.1.0] - 2025-08-08
+## [0.1.0] - 2025-08-10
 
 ### Added
 
@@ -40,6 +35,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Package Management
 
 - **PyPI Distribution**: Available via `pip install psscriptanalyzer-pre-commit`
-- **Semantic Versioning**: Follows semantic versioning for reliable dependency management
 - **MIT License**: Open source with permissive MIT license
 - **Professional Metadata**: Complete package metadata with proper classifiers and keywords

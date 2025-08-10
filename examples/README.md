@@ -152,16 +152,111 @@ pwsh -Command "Invoke-ScriptAnalyzer -Path ./examples/ -Recurse -Severity Warnin
 pwsh -Command "Invoke-ScriptAnalyzer -Path ./examples/ -Recurse -Severity Information"
 ```
 
+### Running Without Pre-commit
+
+You can also install the package from PyPI and run it directly without pre-commit:
+
+```bash
+# Install from PyPI
+pip install psscriptanalyzer-pre-commit
+
+# Run directly on files (linting)
+psscriptanalyzer-hook examples/scripts/BadScript.ps1
+psscriptanalyzer-hook examples/**/*.ps1
+
+# Run with specific severity
+psscriptanalyzer-hook --severity Error examples/scripts/BadScript.ps1
+psscriptanalyzer-hook --severity Warning examples/modules/BadModule.psm1
+psscriptanalyzer-hook --severity Information examples/**/*.ps1
+
+# Format files directly
+psscriptanalyzer-hook --format examples/scripts/BadScript.ps1
+psscriptanalyzer-hook --format examples/**/*.ps1
+
+#### Direct Usage Examples
+
+```bash
+# Analyze a single file
+psscriptanalyzer-hook examples/scripts/MixedSeverity.ps1
+
+# Analyze multiple files
+psscriptanalyzer-hook examples/scripts/*.ps1 examples/modules/*.psm1
+
+# Format and analyze with all severity levels
+psscriptanalyzer-hook --format --severity All examples/scripts/BadScript.ps1
+
+# Only check for errors (strictest)
+psscriptanalyzer-hook --severity Error examples/scripts/AdvancedIssues.ps1
+
+# Check everything including style suggestions
+psscriptanalyzer-hook --severity Information examples/**/*.ps*
+```
+
+#### Integration in Build Scripts
+
+You can integrate this into your build scripts or CI/CD without pre-commit:
+
+```bash
+# In a shell script
+#!/bin/bash
+echo "Checking PowerShell code quality..."
+
+# Install if not already installed
+pip install psscriptanalyzer-pre-commit
+
+# Run analysis
+if psscriptanalyzer-hook --severity Warning src/**/*.ps1; then
+    echo "✅ PowerShell code quality check passed"
+else
+    echo "❌ PowerShell code quality issues found"
+    exit 1
+fi
+
+# Format code
+echo "Formatting PowerShell files..."
+psscriptanalyzer-hook --format src/**/*.ps1
+```
+
+#### Python Script Integration
+
+```python
+# In a Python script
+import subprocess
+import sys
+
+def check_powershell_quality(files, severity="Warning"):
+    """Check PowerShell files using psscriptanalyzer-hook."""
+    cmd = ["psscriptanalyzer-hook", "--severity", severity] + files
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    
+    if result.returncode == 0:
+        print("✅ PowerShell quality check passed")
+        return True
+    else:
+        print("❌ PowerShell quality issues:")
+        print(result.stdout)
+        return False
+
+# Usage
+files = ["examples/scripts/BadScript.ps1", "examples/modules/BadModule.psm1"]
+if not check_powershell_quality(files, "Error"):
+    sys.exit(1)
+```
+
 ## Expected Output
 
 When running PSScriptAnalyzer on these examples, you should see output similar to:
 
 ```text
-examples/scripts/BadScript.ps1:15:5: PSAvoidUsingPlainTextForPassword: Parameter 'password' should use SecureString, otherwise this will expose passwords.
-
-examples/scripts/BadScript.ps1:6:10: PSUseApprovedVerbs: The cmdlet 'Download-File' uses the verb 'Download' which is not in the list of approved verbs.
-
-examples/modules/BadModule.psm1:8:9: PSAvoidUsingUserNameAndPasswordParams: Function 'Connect-ToService' has both Username and Password parameters.
+Warning: BadScript.ps1: Line 6:1: PSUseApprovedVerbs
+  The cmdlet 'Download-File' uses an unapproved verb.
+Warning: BadScript.ps1: Line 35:1: PSAvoidUsingWriteHost
+  File 'BadScript.ps1' uses Write-Host. Avoid using Write-Host because it might 
+  not work in all hosts, does not work when there is no host, and (prior to PS 5.0) 
+  cannot be suppressed, captured, or redirected. Instead, use Write-Output, Write-Verbose, 
+  or Write-Information.
+Error: BadModule.psm1: Line 8:1: PSAvoidUsingUserNameAndPasswordParams
+  Function 'Connect-ToService' has both Username and Password parameters.
 ```
 
 ## Using Examples for Development
@@ -256,7 +351,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: '3.13'
     
     - name: Install PowerShell
       run: |
@@ -337,6 +432,43 @@ jobs:
         find . -name "*.ps1" -o -name "*.psm1" -o -name "*.psd1" | grep -v examples/ | xargs pre-commit run psscriptanalyzer --files
 ```
 
+#### Direct Package Usage in CI
+
+You can also use the package directly without pre-commit:
+
+```yaml
+name: PowerShell Quality (Direct)
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python and PowerShell
+      run: |
+        pip install psscriptanalyzer-pre-commit
+        sudo apt-get update && sudo apt-get install -y powershell
+    
+    - name: Check PowerShell Code Quality
+      run: |
+        # Run directly on files
+        psscriptanalyzer-hook --severity Warning src/**/*.ps1 src/**/*.psm1 || true
+        
+        # Format files and check for changes
+        psscriptanalyzer-hook --format src/**/*.ps1
+        
+        # Verify no formatting changes needed
+        if [[ -n $(git status --porcelain) ]]; then
+          echo "Files were formatted. Please run 'psscriptanalyzer-hook --format' locally."
+          git diff
+          exit 1
+        fi
+```
+
 #### Using with Matrix Strategy
 
 ```yaml
@@ -359,7 +491,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: '3.13'
     
     - name: Install PowerShell (Linux)
       if: runner.os == 'Linux'

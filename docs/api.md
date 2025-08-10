@@ -101,33 +101,6 @@ else:
     print(f"Issues found:\n{stdout}")
 ```
 
-#### `format_psscriptanalyzer_output(output)`
-
-Formats PSScriptAnalyzer output for cross-platform consistency.
-
-**Parameters:**
-
-- `output` (str): Raw PSScriptAnalyzer output
-
-**Returns:**
-
-- `str`: Formatted output with consistent column widths
-
-**Example:**
-
-```python
-from psscriptanalyzer_hook import format_psscriptanalyzer_output
-
-raw_output = """
-RuleName                            Severity     ScriptName                   Line  Message
---------                            --------     ----------                   ----  -------
-PSAvoidUsingCmdletAliases          Warning      test.ps1                        5  'ls' is an alias...
-"""
-
-formatted = format_psscriptanalyzer_output(raw_output)
-print(formatted)
-```
-
 ## Command Line Interface
 
 ### PSScriptAnalyzer Hook

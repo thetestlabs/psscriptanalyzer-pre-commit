@@ -62,10 +62,16 @@ The analyzer hook will:
 **Example output:**
 
 ```text
-RuleName                                 Severity ScriptName           Line Message
---------                                 -------- ----------           ---- -------
-PSAvoidUsingWriteHost                    Warning  MyScript.ps1         15   File 'MyScript.ps1' uses Write-Host...
-PSUseSingularNouns                       Warning  MyScript.ps1         8    The cmdlet 'Get-Files' uses a plural noun...
+Using PowerShell: pwsh
+Analyzing 2 PowerShell file(s)...
+
+Warning: MyScript.ps1: Line 15:1: PSAvoidUsingWriteHost
+  File 'MyScript.ps1' uses Write-Host. Avoid using Write-Host because it might not work in all hosts, does not work when there is no host, and (prior to PS 5.0) cannot be suppressed, captured, or redirected. Instead, use Write-Output, Write-Verbose, or Write-Information.
+
+Warning: MyScript.ps1: Line 8:1: PSUseSingularNouns
+  The cmdlet 'Get-Files' uses a plural noun. A singular noun should be used instead.
+
+Found 2 issue(s)
 ```
 
 ### PSScriptAnalyzer Format Hook
@@ -159,7 +165,7 @@ repos:
     rev: v0.1.0
     hooks:
       - id: psscriptanalyzer
-        args: ["--severity", "Information"]
+        args: ["--severity", "All"]
       - id: psscriptanalyzer-format
 ```
 
@@ -190,7 +196,9 @@ SKIP=psscriptanalyzer,psscriptanalyzer-format git commit -m "Skip PowerShell hoo
 
 ## CI/CD Integration
 
-The hooks work well in CI/CD environments:
+The hooks work well in CI/CD environments. You can use them either with pre-commit or directly:
+
+### Using with Pre-commit
 
 ```yaml
 # GitHub Actions example
@@ -198,4 +206,135 @@ The hooks work well in CI/CD environments:
   run: |
     pip install pre-commit
     pre-commit run --all-files
+```
+
+### Using Package Directly
+
+You can also install and use the package directly without pre-commit:
+
+```yaml
+name: PowerShell Code Quality
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  powershell-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+
+    - name: Install PowerShell
+      run: |
+        # Install PowerShell on Ubuntu
+        wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
+        sudo dpkg -i packages-microsoft-prod.deb
+        sudo apt-get update
+        sudo apt-get install -y powershell
+
+    - name: Install PSScriptAnalyzer Hook
+      run: |
+        pip install psscriptanalyzer-pre-commit
+
+    - name: Run PowerShell Analysis
+      run: |
+        # Analyze PowerShell files with Warning level (default)
+        psscriptanalyzer-hook --severity Warning src/**/*.ps1 src/**/*.psm1 src/**/*.psd1
+      continue-on-error: true  # Don't fail build, just report issues
+
+    - name: Run PowerShell Formatting Check
+      run: |
+        # Check if files need formatting
+        psscriptanalyzer-hook --format src/**/*.ps1 src/**/*.psm1
+
+        # Check for any formatting changes
+        if [[ -n $(git status --porcelain) ]]; then
+          echo "❌ Files need formatting. Please run 'psscriptanalyzer-hook --format' locally."
+          echo "Files that need formatting:"
+          git status --porcelain
+          git diff
+          exit 1
+        else
+          echo "✅ All PowerShell files are properly formatted."
+        fi
+
+    - name: Run Strict Analysis (Errors Only)
+      run: |
+        # Fail build on errors
+        psscriptanalyzer-hook --severity Error src/**/*.ps1 src/**/*.psm1 src/**/*.psd1
+```
+
+### Cross-Platform Example
+
+```yaml
+name: Cross-Platform PowerShell Quality
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        severity: [Error, Warning]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install PowerShell (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y powershell
+
+    - name: Install PowerShell (macOS)
+      if: runner.os == 'macOS'
+      run: brew install powershell
+
+    - name: Install PSScriptAnalyzer Hook
+      run: pip install psscriptanalyzer-pre-commit
+
+    - name: Test PowerShell Files
+      run: |
+        # Run analysis with matrix severity level
+        psscriptanalyzer-hook --severity ${{ matrix.severity }} src/**/*.ps*
+```
+
+### Simple Validation Workflow
+
+For basic validation without pre-commit:
+
+```yaml
+name: Validate PowerShell
+
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: |
+        pip install psscriptanalyzer-pre-commit
+        sudo apt-get update && sudo apt-get install -y powershell
+
+        # Quick validation - errors only
+        psscriptanalyzer-hook --severity Error **/*.ps1 **/*.psm1 **/*.psd1
 ```

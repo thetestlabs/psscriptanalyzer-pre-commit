@@ -13,8 +13,8 @@ The hook requires PowerShell Core (pwsh) to be installed and available in your s
 ##### Option 1: Microsoft Store (Recommended)
 
 ```bash
-# Install from Microsoft Store
-winget install Microsoft.PowerShell
+# Install from Microsoft Store using winget
+winget install --id Microsoft.PowerShell --source winget
 ```
 
 ##### Option 2: Direct Download (Windows)
@@ -79,15 +79,7 @@ pwsh --version
 You should see output similar to:
 
 ```text
-PowerShell 7.4.0
-```
-
-### PSScriptAnalyzer Module
-
-The PSScriptAnalyzer PowerShell module will be automatically installed when the hook first runs. However, you can install it manually if needed:
-
-```powershell
-pwsh -Command "Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser"
+PowerShell 7.5.2
 ```
 
 ## Installing the Pre-commit Hook
